@@ -110,7 +110,10 @@ Após a configuração, a máquina teste conectada à LAN deve receber o IP fixa
 Para testes:
 
 - Podemos verificar se a máquina teste recebeu o IP definido pela configuração do DHCP, com `ifconfig`.
-- Podemos verificar a existência de uma rota entre a máquina local e o roteador com o comando: `ping 172.24.0.1`. 
+- Podemos verificar a existência de uma rota entre a máquina local e o roteador com o comando:
+    ~~~~ bash
+    ping 172.24.0.1
+    ~~~~ 
 
 
 ## Configuração de NAT (Network Address Translation)
