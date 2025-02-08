@@ -146,14 +146,15 @@ Para testes:
 - **Verificar conectividade com o roteador externo (DNS ou gateway)**
 	
 	- Execute o comando ping para verificar se a rede interna consegue alcançar o roteador do laboratório ou a rede externa.
-		
-		- ping 192.168.133.1
-	
+		~~~ bash
+		 ping 192.168.133.1
+        ~~~~
 - **Testar acesso à Internet**
 
 	- Execute o comando curl para verificar se é possível acessar a Internet a partir de um dispositivo na rede interna. O exemplo abaixo tenta acessar a página inicial do Google.
-		
-		- curl www.google.com 
+        ~~~ bash
+	  	 curl www.google.com
+        ~~~ 
 	
 
 ## Configuração de DNAT (Destination Network Address Translation)
