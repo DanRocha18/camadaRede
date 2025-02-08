@@ -111,6 +111,7 @@ Para testes:
 
 - Podemos verificar se a máquina teste recebeu o IP definido pela configuração do DHCP, com `ifconfig`.
 - Podemos verificar a existência de uma rota entre a máquina local e o roteador com o comando:
+    
     ~~~~ bash
     ping 172.24.0.1
     ~~~~ 
