@@ -101,8 +101,9 @@ rcctl start dhcpd
 
 As leases DHCP atribuídas podem ser verificadas no arquivo /var/db/dhcpd.leases:
 
+```bash
 cat /var/db/dhcpd.leases
-
+```
 
 Após a configuração, a máquina teste conectada à LAN deve receber o IP fixado (172.24.0.15) e ser capaz de se comunicar com o roteador recém configurado.
 
@@ -133,7 +134,10 @@ pass out on $ext_if from any to any keep state  # Permite pacotes de saída da i
 
 Aplique as regras de NAT com o comando:
 
+```bash
 pfctl -f /etc/pf.conf
+```
+
 
 Essas regras permitem que as máquinas na rede LAN (172.24.X.X) acessem a Internet, fazendo NAT através da interface re0.
 
@@ -151,7 +155,6 @@ Para testes:
 		
 		- curl www.google.com 
 	
----
 
 ## Configuração de DNAT (Destination Network Address Translation)
 
@@ -163,11 +166,9 @@ Para redirecionar o tráfego da porta 80 da interface externa (re0) para a máqu
 pass in on $ext_if inet proto tcp from any to ($ext_if) port 80 rdr-to 172.24.0.15 port 8080
 ~~~
 
-Esta regra redireciona o tráfego TCP destinado à porta 80 para o IP 172.24.0.15 na porta 8080.
+- Esta regra redireciona o tráfego TCP destinado à porta 80 para o IP 172.24.0.15 na porta 8080.
 
----
-
-Para testar a configuração do DNAT, podemos preparar o seguinte SETUP:
+- Para testar a configuração do DNAT, podemos preparar o seguinte SETUP:
 
 - No roteador, inicie um servidor de escuta na porta 80:
 
