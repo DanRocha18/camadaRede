@@ -14,13 +14,13 @@
 
 ### Sistema Operacional
 - Sistema Operacional: Open BSD
-- Justificativa: Sistema operacional utilizado pelo professor durante suas aulas. Apesar das dificuldades, visando uma maior nota no trabalho, optamos por usar o Open BSD para a confecção do tarbalho 2.
+- Justificativa: Sistema operacional utilizado pelo professor durante suas aulas. Apesar das dificuldades, visando uma maior nota no trabalho, optamos por usar o Open BSD para a confecção do trabalho 2.
+
 
 ## Introdução
 
 Este documento descreve o processo de criação de uma rede local (LAN) utilizando um computador inutilizado com OpenBSD como roteador e firewall, com a configuração de DHCP, NAT e DNAT.
 
----
 
 ## Visão Geral da Topologia e Configuração Inicial 
 
@@ -32,8 +32,6 @@ A topologia de rede a ser criada será a seguinte:
  [ comp1 ] ---+--- udav0 [ OpenBSD ] re0 --- [ internet ]
                                        
 ~~~
-
----
 
 
 ### Configuração da interface externa
@@ -48,7 +46,6 @@ echo 'inet autoconf' > /etc/hostname.re0
 
 Esta configuração permite que o OpenBSD obtenha o endereço IP, gateway e servidores DNS automaticamente ao inicializar a interface.
 
----
 
 ### Configuração da interface interna
 
@@ -73,11 +70,10 @@ sysctl net.inet.ip.forwarding=1
 echo 'net.inet.ip.forwarding=1' >> /etc/sysctl.conf
 ~~~
 
----
 
 ## Configuração DHCP
 
-> O DHCP (Dynamic Host Configuration Protocol) é um protocolo utilizado para atribuir endereços IP e outras configurações de rede (como o gateway e servidores DNS) automaticamente aos dispositivos na rede.
+> O DHCP (Dynamic Host Configuration Protocol) é um protocolo utilizado para atribuir endereços IP e outras configurações de rede (como o gateway e servidores DNS) automaticamente aos dispositivos na rede. 
 
 Para configurar o serviço DHCP, precisamos editar o arquivo /etc/dhcpd.conf, definindo o escopo da rede, o servidor DNS e o gateway. Também será fixado o endereço IP para a "Máquina 1" (maq_teste) (172.24.0.15).
 
@@ -102,13 +98,11 @@ rcctl enable dhcpd
 rcctl start dhcpd
 ```
 
----
 
 As leases DHCP atribuídas podem ser verificadas no arquivo /var/db/dhcpd.leases:
 
 cat /var/db/dhcpd.leases
 
----
 
 Após a configuração, a máquina teste conectada à LAN deve receber o IP fixado (172.24.0.15) e ser capaz de se comunicar com o roteador recém configurado.
 
@@ -117,7 +111,6 @@ Para testes:
 - Podemos verificar se a máquina teste recebeu o IP definido pela configuração do DHCP, com `ifconfig`.
 - Podemos verificar a existência de uma rota entre a máquina local e o roteador com o comando: `ping 172.24.0.1`. 
 
----
 
 ## Configuração de NAT (Network Address Translation)
 
@@ -194,3 +187,12 @@ Na máquina externa (no laboratório), use o comando telnet para testar a conex�
 
 O tráfego da porta 80 será redirecionado para a máquina de teste na porta 8080.
 
+## Limitações Conhecidas
+
+> Pouca disponibilidade de máquinas físicas para configuração e testes.
+
+> Limitações físicas no adaptadorcde rede, mal contato e pouca disponibilidade para muitos alunos o que leva necessitar da compra.
+
+> Configuração do IP estático é sensível ao MAC da máquina de teste, logo, sempre que há mudança no MAC é necessário mudar as configurações. 
+
+## Referências
