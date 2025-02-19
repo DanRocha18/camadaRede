@@ -125,15 +125,20 @@ Para configurar o NAT, iremos utilizar PF (O PF é um filtro de pacotes com esta
 
 Para configurar esse filtro de pacotes, devemos editar o arquivo /etc/pf.conf para configurar as regras de NAT:
 
-```
-# Definição da interface externa (WAN) e interna (LAN)
+```bash
+Definição da interface externa (WAN) e interna (LAN)
 ext_if="re0"  # Interface de rede externa conectada à WAN
 int_if="udav0"  # Interface de rede interna conectada à LAN
 
-# Regras de NAT (Network Address Translation)
-match out on $ext_if inet from $int_if:network to any nat-to ($ext_if)  # Tradução de endereço de origem (NAT) para pacotes saindo da rede interna para a externa, usando o IP da interface externa
-pass in on $int_if from $int_if:network to any keep state  # Permite pacotes de entrada na interface interna (LAN), mantendo o estado das conexões
-pass out on $ext_if from any to any keep state  # Permite pacotes de saída da interface externa (WAN), mantendo o estado das conexões
+Regras de NAT (Network Address Translation)
+
+match out on $ext_if inet from $int_if:network to any nat-to ($ext_if)
+# Tradução de endereço de origem (NAT) para pacotes saindo da rede interna para a externa,
+# usando o IP da interface externa
+pass in on $int_if from $int_if:network to any keep state 
+# Permite pacotes de entrada na interface interna (LAN), mantendo o estado das conexões
+pass out on $ext_if from any to any keep state 
+# Permite pacotes de saída da interface externa (WAN), mantendo o estado das conexões
 ```
 
 Aplique as regras de NAT com o comando:
@@ -150,15 +155,17 @@ Para testes:
 - **Verificar conectividade com o roteador externo (DNS ou gateway)**
 	
 	- Execute o comando ping para verificar se a rede interna consegue alcançar o roteador do laboratório ou a rede externa.
-		~~~ bash
+		
+        ``` bash
 		 ping 192.168.133.1
-        ~~~~
+        ```
 - **Testar acesso à Internet**
 
 	- Execute o comando curl para verificar se é possível acessar a Internet a partir de um dispositivo na rede interna. O exemplo abaixo tenta acessar a página inicial do Google.
-        ~~~ bash
+        
+        ``` bash
 	  	 curl www.google.com
-        ~~~ 
+        ``` 
 	
 
 ## Configuração de DNAT (Destination Network Address Translation)
@@ -167,9 +174,9 @@ Para testes:
 
 Para redirecionar o tráfego da porta 80 da interface externa (re0) para a máquina de teste na porta 8080, adicionamos a seguinte regra de DNAT no arquivo /etc/pf.conf:
 
-~~~ bash
-pass in on $ext_if inet proto tcp from any to ($ext_if) port 80 rdr-to 172.24.0.15 port 8080
-~~~
+``` bash
+pass in on $ext_if inetproto tcp from any to ($ext_if) port 80 rdr-to 172.24.0.15 port 8080
+```
 
 - Esta regra redireciona o tráfego TCP destinado à porta 80 para o IP 172.24.0.15 na porta 8080.
 
@@ -202,3 +209,11 @@ O tráfego da porta 80 será redirecionado para a máquina de teste na porta 808
 > Configuração do IP estático é sensível ao MAC da máquina de teste, logo, sempre que há mudança no MAC é necessário mudar as configurações. 
 
 ## Referências
+
+> OpenBSD PF - Getting Started - Disponível em: [https://www.openbsd.org/faq/pf/config.html](https://www.openbsd.org/faq/pf/config.html)
+
+> OpenBSD FAQ - Networking - Disponível em: [https://www.openbsd.org/faq/faq6.html](https://www.openbsd.org/faq/faq6.html)
+
+> OpenBSD PF - Building a Router - Disponível em: [https://www.openbsd.org/faq/pf/example1.html](https://www.openbsd.org/faq/pf/example1.html)
+
+> Materiais de Aula disponibilizados pelo Professor - Disponível no Moodle da Disciplina
